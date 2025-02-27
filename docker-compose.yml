@@ -13,7 +13,7 @@ services:
         environment:
             - APP_ENV=local
             - APP_DEBUG=true
-            - DB_HOST=127.0.0.1
+            - DB_HOST=host.docker.internal
             - DB_PORT=3306
             - DB_DATABASE=kafka_app
             - DB_USERNAME=root
@@ -42,6 +42,9 @@ services:
         environment:
             KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+            KAFKA_NUM_PARTITIONS: 1
         ports:
             - "9092:9092"
         depends_on:
