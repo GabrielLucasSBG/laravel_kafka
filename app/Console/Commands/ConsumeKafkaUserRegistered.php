@@ -28,11 +28,11 @@ class ConsumeKafkaUserRegistered extends Command
      */
     public function handle()
     {
-        $consumer2 = new UserRegisteredConsumer();
+        $userRegisteredConsumer = new UserRegisteredConsumer();
 
         $consumer = Kafka::consumer(['user_registered'], env('KAFKA_CONSUMER_GROUP_ID', 'default-consumer-group'))
             ->withBrokers(env('KAFKA_BROKERS', 'localhost:9092'))
-            ->withHandler($consumer2)
+            ->withHandler($userRegisteredConsumer)
             ->build();
 
         try {
