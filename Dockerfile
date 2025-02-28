@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     libsnappy-dev \
     git \
     cmake \
+    cron \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Install Kafka extension with Snappy support
@@ -45,6 +46,13 @@ RUN chown -R www-data:www-data /var/www \
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Expose port 9000 and start PHP-FPM server
+# Add Laravel Scheduler to cron
+RUN echo "* * * * * www-data php /var/www/artisan schedule:run >> /dev/null 2>&1" | tee -a /etc/cron.d/laravel-scheduler \
+    && chmod 0644 /etc/cron.d/laravel-scheduler \
+    && crontab /etc/cron.d/laravel-scheduler
+
+# Start PHP-FPM and cron
+CMD service cron start && php-fpm
+
+# Expose port 9000
 EXPOSE 9000
-CMD ["php-fpm"]
