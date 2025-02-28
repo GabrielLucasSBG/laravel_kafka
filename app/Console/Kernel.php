@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ConsumeKafkaUserRegistered;
+use App\Console\Commands\ConsumeUserUpdated;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -10,6 +11,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         ConsumeKafkaUserRegistered::class,
+        ConsumeUserUpdated::class,
     ];
 
     /**
